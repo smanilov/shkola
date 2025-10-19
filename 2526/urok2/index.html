@@ -67,7 +67,7 @@
             </div>
             
             <p class="fragment">Това е вертикален слайд, така че продължете със
-            стрелка <strong>надолу</strong>. Стрелка надясно ще прескочи
+            стрелка <strong style="color: red">надолу</strong>. Стрелка надясно ще прескочи
             подробностите.</p>
           </section>
 
@@ -85,24 +85,27 @@
               data-fragment-index="2">Операцията "произведение" има лява
               операнда числото 3 и дясна операнда числото 4.</span></p>
 
-              <div style="display: flex">
+              <div style="display: flex;
+                          width: fit-content;
+                          margin-left: auto;
+                          margin-right: auto;">
                 <div class="mermaid fragment fade-in-then-out" data-fragment-index="1">
-                  <pre>
+                  <pre><script type="text/template">
                     %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
                     flowchart TD
                       A["\+"] --> B[2];
                       A --> C["\*"];
-                  </pre>
+                  </script></pre>
                 </div>
                 <div class="mermaid fragment" data-fragment-index="2">
-                  <pre>
+                  <pre><script type="text/template">
                     %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
                     flowchart TD
                       A["\+"] --> B[2];
                       A --> C["\*"];
                       C --> D[3];
                       C --> E[4];
-                  </pre>
+                  </script></pre>
                 </div>
               </div>
 
@@ -116,8 +119,8 @@
               <p class="fragment">Аналогично, обратният полски запис на израза
               ще започва с 2 [*] +.
               <span class="fragment">Тук сме записали оператора * в скоби,
-                защото записът не е съвсем верен. Но начинът, по който сме го
-                записали представлява това, че операндите на сбора са 2 и
+                защото записът <em>не е съвсем верен</em>. Но начинът, по който
+                сме го записали представлява това, че операндите на сбора са 2 и
                 резултатът от произведението.</span>
               <span class="fragment">Произведението, само по себе си трябва да
                 се запише така: 3 4 *.</span>
@@ -355,234 +358,2575 @@
             </table>
           </div>
           <p class="fragment fade-in-then-out"><em>(Ако продължите ще разкриете
-            решението.)</em></p>
+            решението. Сега е шансът ви да помислите сами :)</em></p>
           <p class="fragment">Решението е да използваме <em>стек</em> от числа,
           в който да пазим временните стойности.</p>
         </section>
 
-				<section data-auto-animate style="font-size: 24px;">
-					<pre data-id="code-animation"><code class="language-c++" data-trim data-line-numbers>
-#include <iostream>
-#include <string>
+        <section>
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <pre data-id="code-animation" style="width: 48%;">
+              <code class="language-c++" data-trim data-line-numbers>
+                <script type="text/template">
+  #include <iostream>
+  #include <string>
 
-using namespace std;
+  using namespace std;
 
-int main() {
-    int n; cin >> n;
+  int main() {
+      int n; cin >> n;
 
-    string s;
-    while (n-- > 0) {
-        cin >> s;
-        ...
-    }
+      string s;
+      while (n-- > 0) {
+          cin >> s;
+          ...
+      }
 
-    return 0;
-}</code></pre>
-          <p>Започваме с прочитане на входа.</p>
-				</section>
+      return 0;
+  }</script></code></pre>
+            <p>Започваме с прочитане на входа.</p>
+            <p>Така написаният код ще прочете едно число и след това толкова на
+            брой текстови низа.</p>
+            <p class="fragment">(Отново използвайте стрелка <strong style="color:
+              red">надолу</strong> за навигация. Стрелка надясно ще прескочи
+            подробностите.)</p>
+          </section>
 
-				<section data-auto-animate style="font-size: 24px;">
-					<pre data-id="code-animation">
-            <code class="language-c++"
-                  data-trim
-                  data-line-numbers="15-20">
-#include <iostream>
-#include <string>
-#include <stack>
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <pre data-id="code-animation" style="width: 48%;">
+              <code class="language-c++" data-trim data-line-numbers="3,8,15-20">
+                <script type="text/template">
+  #include <iostream>
+  #include <string>
+  #include <stack>
 
-using namespace std;
+  using namespace std;
 
-int main() {
-    stack<int> st;
-    int n; cin >> n;
+  int main() {
+      stack<int> st;
+      int n; cin >> n;
 
-    string s;
-    while (n-- > 0) {
-        cin >> s;
+      string s;
+      while (n-- > 0) {
+          cin >> s;
 
-        if (s == "*" || s == "+") {
-            ...
-        } else {
-            int n = stoi(s);
-            st.push(n);
-        }
-    }
+          if (s == "*" || s == "+") {
+              ...
+          } else {
+              int n = stoi(s);
+              st.push(n);
+          }
+      }
 
-    return 0;
-}</code></pre>
-          <p>Ако сме прочели оператор, правим едно (...); в противен случай:
-          превръщаме прочетения низ в число и го слагаме на стека.</p>
-				</section>
+      return 0;
+  }</script></code></pre>
+            <p>Добавяме стек от числа, в който ще пазим временните стойности.</p>
+            <p>Ако сме прочели оператор, правим едно (...); в противен случай:
+            превръщаме прочетения низ в число и го слагаме на стека.</p>
+          </section>
 
-				<section data-auto-animate style="font-size: 24px;">
-					<pre data-id="code-animation">
-            <code class="language-c++"
-                  data-trim
-                  data-line-numbers="16-22">
-#include <iostream>
-#include <string>
-#include <stack>
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <pre data-id="code-animation" style="width: 48%;">
+              <code class="language-c++" data-trim data-line-numbers="16-22">
+                <script type="text/template">
+  #include <iostream>
+  #include <string>
+  #include <stack>
 
-using namespace std;
+  using namespace std;
 
-int main() {
-    stack<int> st;
-    int n; cin >> n;
+  int main() {
+      stack<int> st;
+      int n; cin >> n;
 
-    string s;
-    while (n-- > 0) {
-        cin >> s;
+      string s;
+      while (n-- > 0) {
+          cin >> s;
 
-        if (s == "*" || s == "+") {
-            int b = st.top(); st.pop();
-            int a = st.top(); st.pop();
-            if (s == "+") {
-                st.push(a + b);
-            } else if (s == "*") {
-                st.push(a * b);
+          if (s == "*" || s == "+") {
+              int b = st.top(); st.pop();
+              int a = st.top(); st.pop();
+              if (s == "+") {
+                  st.push(a + b);
+              } else if (s == "*") {
+                  st.push(a * b);
+              }
+          } else {
+              int n = stoi(s);
+              st.push(n);
+          }
+      }
+
+      return 0;
+  }</script></code></pre>
+            <p>Ако сме прочели оператор, вадим две числа от стека. Извършваме
+            съответната операция с тях и слагаме резултата пак на стека.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <pre data-id="code-animation" style="height: 39em; width: 48%;">
+              <code class="language-c++" data-trim data-line-numbers="29">
+                <script type="text/template">
+  #include <iostream>
+  #include <string>
+  #include <stack>
+
+  using namespace std;
+
+  int main() {
+      stack<int> st;
+      int n; cin >> n;
+
+      string s;
+      while (n-- > 0) {
+          cin >> s;
+
+          if (s == "*" || s == "+") {
+              int b = st.top(); st.pop();
+              int a = st.top(); st.pop();
+              if (s == "+") {
+                  st.push(a + b);
+              } else if (s == "*") {
+                  st.push(a * b);
+              }
+          } else {
+              int n = stoi(s);
+              st.push(n);
+          }
+      }
+
+      cout << st.top() << endl;
+
+      return 0;
+  }</script></code></pre>
+            <p>Финалният резултат е на върха на стека, така че отпечатваме него.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <pre data-id="code-animation" style="height: 44em; width: 48%;">
+              <code class="language-c++" data-trim data-line-numbers="15,22-25">
+                <script type="text/template">
+  #include <iostream>
+  #include <string>
+  #include <stack>
+
+  using namespace std;
+
+  int main() {
+      stack<int> st;
+      int n; cin >> n;
+
+      string s;
+      while (n-- > 0) {
+          cin >> s;
+
+          if (s == "*" || s == "+" || s == "/" || s == "-") {
+              int b = st.top(); st.pop();
+              int a = st.top(); st.pop();
+              if (s == "+") {
+                  st.push(a + b);
+              } else if (s == "*") {
+                  st.push(a * b);
+              } else if (s == "/") {
+                  st.push(a / b);
+              } else if (s == "-") {
+                  st.push(a - b);
+              }
+          } else {
+              int n = stoi(s);
+              st.push(n);
+          }
+      }
+
+      cout << st.top() << endl;
+
+      return 0;
+  }</script></code></pre>
+            <p>Ако искаме, добавяме още оператори по същия начин.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <pre data-id="code-animation" style="height: 44em; width: 48%;">
+              <code class="language-c++" data-trim data-line-numbers>
+                <script type="text/template">
+  #include <iostream>
+  #include <string>
+  #include <stack>
+
+  using namespace std;
+
+  int main() {
+      stack<int> st;
+      int n; cin >> n;
+
+      string s;
+      while (n-- > 0) {
+          cin >> s;
+
+          if (s == "*" || s == "+" || s == "/" || s == "-") {
+              int b = st.top(); st.pop();
+              int a = st.top(); st.pop();
+              if (s == "+") {
+                  st.push(a + b);
+              } else if (s == "*") {
+                  st.push(a * b);
+              } else if (s == "/") {
+                  st.push(a / b);
+              } else if (s == "-") {
+                  st.push(a - b);
+              }
+          } else {
+              int n = stoi(s);
+              st.push(n);
+          }
+      }
+
+      cout << st.top() << endl;
+
+      return 0;
+  }</script></code></pre>
+            <p>С това решението е завършено.</p>
+            <p class="fragment">Да видим как се справя с примерен вход.</p>
+          </section>
+        </section>
+
+        <section>
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers>
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
             }
-        } else {
-            int n = stoi(s);
-            st.push(n);
         }
-    }
 
-    return 0;
-}</code></pre>
-          <p>Ако сме прочели оператор, вадим две числа от стека. Извършваме
-          съответната операция с тях и слагаме резултата пак на стека.</p>
-				</section>
+        cout << st.top() << endl;
 
-				<section data-auto-animate style="font-size: 24px;">
-					<pre data-id="code-animation">
-            <code class="language-c++"
-                  data-trim
-                  data-line-numbers="29">
-#include <iostream>
-#include <string>
-#include <stack>
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Да разгледаме изпълнението на програмата върху примерен вход.</p>
+          </section>
 
-using namespace std;
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="9">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
 
-int main() {
-    stack<int> st;
-    int n; cin >> n;
+    using namespace std;
 
-    string s;
-    while (n-- > 0) {
-        cin >> s;
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
 
-        if (s == "*" || s == "+") {
-            int b = st.top(); st.pop();
-            int a = st.top(); st.pop();
-            if (s == "+") {
-                st.push(a + b);
-            } else if (s == "*") {
-                st.push(a * b);
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
             }
-        } else {
-            int n = stoi(s);
-            st.push(n);
         }
-    }
 
-    cout << st.top() << endl;
+        cout << st.top() << endl;
 
-    return 0;
-}</code>
-          </pre>
-          <p>Финалният резултат е на върха на стека, така че отпечатваме него.</p>
-				</section>
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        <strong style="color: red">5</strong><br/>
+                        2 3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Първоначално прочитаме броя на елементи в израза: 5.</p>
+          </section>
 
-				<section data-auto-animate style="font-size: 24px;">
-					<pre data-id="code-animation">
-            <code class="language-c++"
-                  data-trim
-                  data-line-numbers="15,22-25">
-#include <iostream>
-#include <string>
-#include <stack>
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="9">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
 
-using namespace std;
+    using namespace std;
 
-int main() {
-    stack<int> st;
-    int n; cin >> n;
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
 
-    string s;
-    while (n-- > 0) {
-        cin >> s;
+        string s;
+        while (n-- > 0) {
+            cin >> s;
 
-        if (s == "*" || s == "+" || s == "/" || s == "-") {
-            int b = st.top(); st.pop();
-            int a = st.top(); st.pop();
-            if (s == "+") {
-                st.push(a + b);
-            } else if (s == "*") {
-                st.push(a * b);
-            } else if (s == "/") {
-                st.push(a / b);
-            } else if (s == "-") {
-                st.push(a - b);
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
             }
-        } else {
-            int n = stoi(s);
-            st.push(n);
         }
-    }
 
-    cout << st.top() << endl;
+        cout << st.top() << endl;
 
-    return 0;
-}</code>
-          </pre>
-          <p>Ако искаме, добавяме още оператори по същия начин.</p>
-				</section>
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<strong style="color: red">•</strong><br/>
+                        2 3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Първоначално прочитаме броя на елементи в израза: 5.</p>
+            <p>С тази точка ще бележим докъде сме стигнали във входа.</p>
+          </section>
 
-				<section data-auto-animate style="font-size: 24px;">
-					<pre data-id="code-animation">
-            <code class="language-c++"
-                  data-trim
-                  data-line-numbers>
-#include <iostream>
-#include <string>
-#include <stack>
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="12">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
 
-using namespace std;
+    using namespace std;
 
-int main() {
-    stack<int> st;
-    int n; cin >> n;
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
 
-    string s;
-    while (n-- > 0) {
-        cin >> s;
+        string s;
+        while (n-- > 0) {
+            cin >> s;
 
-        if (s == "*" || s == "+" || s == "/" || s == "-") {
-            int b = st.top(); st.pop();
-            int a = st.top(); st.pop();
-            if (s == "+") {
-                st.push(a + b);
-            } else if (s == "*") {
-                st.push(a * b);
-            } else if (s == "/") {
-                st.push(a / b);
-            } else if (s == "-") {
-                st.push(a - b);
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
             }
-        } else {
-            int n = stoi(s);
-            st.push(n);
         }
-    }
 
-    cout << st.top() << endl;
+        cout << st.top() << endl;
 
-    return 0;
-}</code>
-          </pre>
-          <p>С това решението е завършено.</p>
-				</section>
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5•<br/>
+                        2 3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Стойността на n е 5, което е по-голямо от нула, така че изпълняваме тялото на
+            цикъла.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="13">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        <strong style="color: red">2•</strong>3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Прочитаме следващия елемент на израза: числото 2.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="15">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2•3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Проверяваме дали 2 е оператор: не е.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="28-29">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2•3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Превръщаме 2 от текстов низ в число и го слагаме в стека.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="12">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2•3 4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Стойността на n е 4, което все още е по-голямо от нула:
+            изпълняваме цикъла.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="13">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 <strong style="color: red">3•</strong>4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Прочитаме следващия елемент на израза: 3.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="15">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3•4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Проверяваме дали 3 е оператор: не е.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="28-29">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3•4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Превръщаме го в число и го добавяме на стека.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="12">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3•4 * +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>n е 3, повтаряме цикъла</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="13">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 <strong style="color: red">4•</strong>* +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Прочитаме следващия елемент на израза: 4.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="15">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4•* +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Проверяваме дали 4 е оператор: не е.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="28-29">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4•* +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      c["4"]
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Превръщаме го в число и го добавяме на стека.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="12">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4•* +
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      c["4"]
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>n е 2, повтаряме цикъла</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="13">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 <strong style="color: red">*•</strong>+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      c["4"]
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Прочитаме следващия елемент на израза: *.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="15">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 *•+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      c["4"]
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Проверяваме дали * е оператор: да!</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="16">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 *•+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["3"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Вадим 4 от стека и го записваме в b.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="17">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 *•+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Вадим 3 от стека и го записваме в a.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="20-21">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 *•+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["12"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Изпълнява се разклонението на if-else дървото, което съответства
+            на оператора *: слагаме на стека произведението на а и b.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="30">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 *•+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["12"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Приключва текущото повторение на цикъла.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="12">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 *•+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["12"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>n е 1, повтаряме цикъла</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="13">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * <strong style="color: red">+•</strong>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["12"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Прочитаме следващия елемент на израза: +.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="15">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["12"]
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Проверяваме дали + е оператор: да.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="16">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["2"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Вадим 12 от стека и го записваме в b.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="17">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["(празен стек)"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Вадим 2 от стека и го записваме в a.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="18-19">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["14"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Изпълнява се разклонението на if-else дървото, което съответства
+            на оператора +: слагаме на стека сбора на а и b.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="30">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      b["14"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Приключва текущото повторение на цикъла.</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="12">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["14"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>n е 0, цикълът приключва</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="33">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                      <th>Изход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                      <td>
+                        14
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["14"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>отпечатва се стойността от върха на стека: 14</p>
+          </section>
+
+          <section data-auto-animate style="font-size: 20px; height: 1000px;">
+            <div style="display: flex;">
+              <pre data-id="code-animation" style="height: 44em; width: 48%;">
+                <code class="language-c++" data-trim data-line-numbers="35">
+                  <script type="text/template">
+    #include <iostream>
+    #include <string>
+    #include <stack>
+
+    using namespace std;
+
+    int main() {
+        stack<int> st;
+        int n; cin >> n;
+
+        string s;
+        while (n-- > 0) {
+            cin >> s;
+
+            if (s == "*" || s == "+" || s == "/" || s == "-") {
+                int b = st.top(); st.pop();
+                int a = st.top(); st.pop();
+                if (s == "+") {
+                    st.push(a + b);
+                } else if (s == "*") {
+                    st.push(a * b);
+                } else if (s == "/") {
+                    st.push(a / b);
+                } else if (s == "-") {
+                    st.push(a - b);
+                }
+            } else {
+                int n = stoi(s);
+                st.push(n);
+            }
+        }
+
+        cout << st.top() << endl;
+
+        return 0;
+    }</script></code></pre>
+              <div style="display: flex; flex-direction: column; width: 48%;">
+                <table data-id="table-animation" border="1">
+                  <thead>
+                    <tr>
+                      <th>Вход</th>
+                      <th>Изход</th>
+                    </tr>
+                  </thead>
+                  <tbody style="font-family: Mono;">
+                    <tr>
+                      <td>
+                        5<br/>
+                        2 3 4 * +•
+                      </td>
+                      <td>
+                        14
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div data-id="diagram-animation" class="mermaid">
+                  <pre><script type="text/template">
+                    %%{init: {'theme': 'white', 'themeVariables': { 'darkMode': false }}}%%
+  block-beta
+    block
+      columns 1
+      a["14"]
+    end
+                  </script></pre>
+                </div>
+              </div>
+            </div>
+            <p>Програмата приключва, след извеждане на правилния отговор.</p>
+          </section>
+
+        </section>
       </div>
     </div>
 
